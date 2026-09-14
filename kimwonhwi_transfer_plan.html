@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>김원휘 편입 후보 대학 타임라인</title>
+<style>
+  :root{
+    --bg: #10151f;
+    --card: #19212f;
+    --card-border: rgba(255,255,255,0.07);
+    --text: #e9edf5;
+    --muted: #8a94ab;
+    --teal: #5fd0c0;
+    --teal-soft: rgba(95,208,192,0.14);
+    --amber: #f2a65a;
+    --amber-soft: rgba(242,166,90,0.14);
+    --warn: #e0748a;
+    --warn-soft: rgba(224,116,138,0.14);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:48px;
+  }
+  .wrap{max-width:460px;margin:0 auto;padding:0 16px;}
+
+  .hero{padding:34px 16px 18px;text-align:center;}
+  .hero .eyebrow{font-size:13px;color:var(--muted);margin-bottom:6px;}
+  .hero .ddaynum{font-size:50px;font-weight:800;line-height:1;color:var(--teal);letter-spacing:-1px;}
+  .hero .title{margin-top:14px;font-size:17px;font-weight:700;}
+  .hero .subtitle{margin-top:4px;font-size:13.5px;color:var(--muted);line-height:1.6;}
+
+  .timeline-bar{
+    display:flex;
+    justify-content:space-between;
+    padding:16px 16px 4px;
+    max-width:460px;
+    margin:0 auto;
+  }
+  .tstep{text-align:center;flex:1;}
+  .tstep .dot{width:9px;height:9px;border-radius:50%;background:var(--teal);margin:0 auto 6px;}
+  .tstep .label{font-size:11px;color:var(--muted);line-height:1.4;}
+  .tstep .when{font-size:11.5px;font-weight:700;margin-top:2px;}
+  .tline{
+    height:1px;
+    background:rgba(255,255,255,0.1);
+    flex:0.4;
+    margin-top:4px;
+    align-self:flex-start;
+  }
+
+  .legend{display:flex;justify-content:center;gap:16px;padding:18px 16px 6px;flex-wrap:wrap;}
+  .legend-item{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);}
+  .dot{width:8px;height:8px;border-radius:50%;display:inline-block;}
+  .dot.teal{background:var(--teal);}
+  .dot.amber{background:var(--amber);}
+
+  .section-label{margin:26px 0 12px;font-size:13px;color:var(--muted);}
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--card-border);
+    border-left:3px solid var(--teal);
+    border-radius:10px;
+    padding:15px 16px;
+    margin-bottom:12px;
+  }
+  .card.written{border-left-color:var(--amber);}
+  .card.unclear{border-left-color:var(--warn);}
+
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px;}
+  .uni-name{font-size:15.5px;font-weight:700;}
+  .uni-loc{font-size:11.5px;color:var(--muted);margin-top:1px;}
+
+  .type-chip{
+    font-size:11px;font-weight:700;
+    padding:3px 9px;border-radius:99px;
+    white-space:nowrap;
+    color:var(--teal);background:var(--teal-soft);
+  }
+  .card.written .type-chip{color:var(--amber);background:var(--amber-soft);}
+  .card.unclear .type-chip{color:var(--warn);background:var(--warn-soft);}
+
+  .row{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    font-size:13px;
+    padding:6px 0;
+    border-top:1px solid rgba(255,255,255,0.06);
+  }
+  .row:first-of-type{border-top:none;}
+  .row .k{color:var(--muted);flex-shrink:0;}
+  .row .v{text-align:right;font-weight:600;}
+
+  .note{
+    font-size:12px;
+    color:var(--muted);
+    background:rgba(255,255,255,0.04);
+    border-radius:8px;
+    padding:8px 10px;
+    margin-top:10px;
+    line-height:1.5;
+  }
+
+  .footer-note{
+    text-align:center;
+    font-size:12px;
+    color:var(--muted);
+    padding:20px 24px 0;
+    line-height:1.8;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="eyebrow">예상 원서접수 시즌까지</div>
+  <div class="ddaynum">D-78</div>
+  <div class="title">김원휘님의 편입 후보 대학 리스트</div>
+  <div class="subtitle">전적대 성적 확인 전 — 학교 이름·요구사항·시기부터 먼저 정리</div>
+</div>
+
+<div class="timeline-bar">
+  <div class="tstep"><div class="dot"></div><div class="label">지금</div><div class="when">9월</div></div>
+  <div class="tline"></div>
+  <div class="tstep"><div class="dot"></div><div class="label">모집요강<br>발표</div><div class="when">11월</div></div>
+  <div class="tline"></div>
+  <div class="tstep"><div class="dot"></div><div class="label">원서접수·<br>필기시험</div><div class="when">12월~1월</div></div>
+  <div class="tline"></div>
+  <div class="tstep"><div class="dot"></div><div class="label">새 학교<br>3학년 입학</div><div class="when">내년 3월</div></div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><span class="dot teal"></span>공인영어(토익 등) 반영</div>
+  <div class="legend-item"><span class="dot amber"></span>편입영어 자체 필답고사</div>
+</div>
+
+<div class="wrap">
+
+  <div class="section-label">공인영어(토익) 반영 대학 — 점수로 목표를 세울 수 있는 곳</div>
+
+  <div class="card">
+    <div class="card-top">
+      <div><div class="uni-name">상명대학교</div><div class="uni-loc">서울 종로구</div></div>
+      <span class="type-chip">공인영어</span>
+    </div>
+    <div class="row"><span class="k">반영 방식</span><span class="v">토익 100%</span></div>
+    <div class="row"><span class="k">목표 점수</span><span class="v">학사편입 850점 이상</span></div>
+    <div class="row"><span class="k">전적대 반영</span><span class="v">없음</span></div>
+    <div class="row"><span class="k">원서접수(추정)</span><span class="v">12월 초</span></div>
+    <div class="row"><span class="k">최소 응시 시점</span><span class="v">늦어도 11월 중순 정기시험</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div><div class="uni-name">서울과학기술대학교</div><div class="uni-loc">서울 노원구</div></div>
+      <span class="type-chip">공인영어</span>
+    </div>
+    <div class="row"><span class="k">반영 방식</span><span class="v">공인영어 + 자체시험 병행</span></div>
+    <div class="row"><span class="k">목표 점수</span><span class="v">800~950+ (학과별 편차 큼)</span></div>
+    <div class="row"><span class="k">전적대 반영</span><span class="v">확인 필요</span></div>
+    <div class="row"><span class="k">원서접수(추정)</span><span class="v">12월 초</span></div>
+    <div class="row"><span class="k">최소 응시 시점</span><span class="v">늦어도 11월 중순 정기시험</span></div>
+  </div>
+
+  <div class="note" style="margin:0 0 18px;">
+    토익 성적은 시험일로부터 약 10일 뒤(수요일 정오)에 발표되고, 온라인 성적표는 발표 즉시 출력됩니다.
+    원서접수 시작일 기준으로 최소 2주 전 시험은 봐야 성적표를 맞출 수 있고,
+    떨어질 경우 재응시할 여유까지 감안하면 <strong>10월 안에 첫 응시</strong>, 11월 중순 시험을 마지노선으로 잡는 게 안전합니다.
+  </div>
+
+  <div class="section-label">편입영어(자체 필답고사) 반영 대학 — 시험 실력이 곧 점수</div>
+
+  <div class="card written">
+    <div class="card-top">
+      <div><div class="uni-name">국민대학교</div><div class="uni-loc">서울 성북구</div></div>
+      <span class="type-chip">자체시험</span>
+    </div>
+    <div class="row"><span class="k">반영 방식</span><span class="v">1단계 영어100 → 2단계 1단계70+전적대30</span></div>
+    <div class="row"><span class="k">전적대 반영</span><span class="v">30%</span></div>
+    <div class="row"><span class="k">원서접수(작년 기준)</span><span class="v">12/3~12/5</span></div>
+  </div>
+
+  <div class="card written">
+    <div class="card-top">
+      <div><div class="uni-name">건국대학교(서울캠)</div><div class="uni-loc">서울 광진구</div></div>
+      <span class="type-chip">자체시험</span>
+    </div>
+    <div class="row"><span class="k">반영 방식</span><span class="v">1단계 영어100 → 2단계 1단계60+면접40</span></div>
+    <div class="row"><span class="k">전적대 반영</span><span class="v">정량 반영 없음 (면접에서 간접 고려)</span></div>
+    <div class="row"><span class="k">원서접수(작년 기준)</span><span class="v">12/3~12/6</span></div>
+  </div>
+
+  <div class="card written">
+    <div class="card-top">
+      <div><div class="uni-name">동국대학교(서울캠)</div><div class="uni-loc">서울 중구</div></div>
+      <span class="type-chip">자체시험</span>
+    </div>
+    <div class="row"><span class="k">반영 방식</span><span class="v">1단계 영어100 → 2단계 1단계70+전적대30</span></div>
+    <div class="row"><span class="k">전적대 반영</span><span class="v">30%</span></div>
+    <div class="row"><span class="k">원서접수(작년 기준)</span><span class="v">12/16~12/18</span></div>
+  </div>
+
+  <div class="card written">
+    <div class="card-top">
+      <div><div class="uni-name">홍익대학교(서울캠)</div><div class="uni-loc">서울 마포구</div></div>
+      <span class="type-chip">자체시험</span>
+    </div>
+    <div class="row"><span class="k">반영 방식</span><span class="v">1단계 영어100 → 2단계 1단계75+전적대25</span></div>
+    <div class="row"><span class="k">전적대 반영</span><span class="v">25%</span></div>
+    <div class="row"><span class="k">원서접수(추정)</span><span class="v">12월 중순</span></div>
+  </div>
+
+  <div class="card written">
+    <div class="card-top">
+      <div><div class="uni-name">숭실대학교</div><div class="uni-loc">서울 동작구</div></div>
+      <span class="type-chip">자체시험</span>
+    </div>
+    <div class="row"><span class="k">반영 방식</span><span class="v">1단계 영어100 → 2단계 필답90+전적대10</span></div>
+    <div class="row"><span class="k">전적대 반영</span><span class="v">10% (이번 학년도 신설)</span></div>
+    <div class="row"><span class="k">원서접수(추정)</span><span class="v">12월 초</span></div>
+  </div>
+
+  <div class="card written">
+    <div class="card-top">
+      <div><div class="uni-name">세종대학교</div><div class="uni-loc">서울 광진구</div></div>
+      <span class="type-chip">자체시험</span>
+    </div>
+    <div class="row"><span class="k">반영 방식</span><span class="v">영어 100% 단독</span></div>
+    <div class="row"><span class="k">전적대 반영</span><span class="v">없음</span></div>
+    <div class="row"><span class="k">원서접수(추정)</span><span class="v">12월 초</span></div>
+    <div class="note">전적대 성적이 아직 확인되지 않은 상태라면 우선순위로 고려할 만한 곳입니다.</div>
+  </div>
+
+  <div class="card written">
+    <div class="card-top">
+      <div><div class="uni-name">단국대학교(죽전)</div><div class="uni-loc">경기 용인 (인서울 편입 논의에 포함)</div></div>
+      <span class="type-chip">자체시험</span>
+    </div>
+    <div class="row"><span class="k">반영 방식</span><span class="v">1단계 영어100 → 2단계 1단계90+전적대10+서류P/F</span></div>
+    <div class="row"><span class="k">전적대 반영</span><span class="v">10%</span></div>
+    <div class="row"><span class="k">원서접수(작년 기준)</span><span class="v">12/9~12/12</span></div>
+  </div>
+
+  <div class="card written">
+    <div class="card-top">
+      <div><div class="uni-name">광운대학교</div><div class="uni-loc">서울 노원구</div></div>
+      <span class="type-chip">자체시험</span>
+    </div>
+    <div class="row"><span class="k">반영 방식</span><span class="v">영어70 + 전적대30 (통합 산정)</span></div>
+    <div class="row"><span class="k">전적대 반영</span><span class="v">30%</span></div>
+    <div class="row"><span class="k">원서접수(추정)</span><span class="v">12월 초</span></div>
+  </div>
+
+  <div class="card written">
+    <div class="card-top">
+      <div><div class="uni-name">명지대학교</div><div class="uni-loc">서울 서대문구</div></div>
+      <span class="type-chip">자체시험</span>
+    </div>
+    <div class="row"><span class="k">반영 방식</span><span class="v">영어70 + 전적대30 (통합 산정)</span></div>
+    <div class="row"><span class="k">전적대 반영</span><span class="v">30%</span></div>
+    <div class="row"><span class="k">원서접수(추정)</span><span class="v">12월 초</span></div>
+  </div>
+
+  <div class="card written">
+    <div class="card-top">
+      <div><div class="uni-name">가톨릭대학교</div><div class="uni-loc">서울 성의교정 (인문/생활과학)</div></div>
+      <span class="type-chip">자체시험</span>
+    </div>
+    <div class="row"><span class="k">반영 방식</span><span class="v">1단계 영어100 → 2단계 영어70+전적대30</span></div>
+    <div class="row"><span class="k">전적대 반영</span><span class="v">30%</span></div>
+    <div class="row"><span class="k">원서접수(작년 기준)</span><span class="v">12/5~12/10</span></div>
+  </div>
+
+  <div class="card written">
+    <div class="card-top">
+      <div><div class="uni-name">한성대학교</div><div class="uni-loc">서울 성북구</div></div>
+      <span class="type-chip">자체시험</span>
+    </div>
+    <div class="row"><span class="k">반영 방식</span><span class="v">영어 100% 단독</span></div>
+    <div class="row"><span class="k">전적대 반영</span><span class="v">없음</span></div>
+    <div class="row"><span class="k">원서접수(추정)</span><span class="v">12월 중순</span></div>
+    <div class="note">전적대 반영이 없어 학점 미확인 상태에서도 안전한 지원 후보입니다.</div>
+  </div>
+
+  <div class="card unclear">
+    <div class="card-top">
+      <div><div class="uni-name">서경대학교</div><div class="uni-loc">서울 성북구</div></div>
+      <span class="type-chip">확인 필요</span>
+    </div>
+    <div class="row"><span class="k">반영 방식</span><span class="v">자료마다 상이 — 자체 영어 100% 또는 공인영어 반영 학과 혼재</span></div>
+    <div class="row"><span class="k">전적대 반영</span><span class="v">확인 필요</span></div>
+    <div class="row"><span class="k">원서접수(추정)</span><span class="v">12월 중순</span></div>
+    <div class="note">지원 학과를 정한 뒤 최신 모집요강으로 직접 확인이 필요합니다.</div>
+  </div>
+
+  <div class="card unclear">
+    <div class="card-top">
+      <div><div class="uni-name">삼육대학교</div><div class="uni-loc">서울 노원구</div></div>
+      <span class="type-chip">확인 필요</span>
+    </div>
+    <div class="row"><span class="k">반영 방식</span><span class="v">이번 학년도부터 자체 필답고사(40문항·60분)로 전환</span></div>
+    <div class="row"><span class="k">전적대 반영</span><span class="v">확인 필요</span></div>
+    <div class="row"><span class="k">원서접수(추정)</span><span class="v">12월 초</span></div>
+    <div class="note">최근에 전형 방식이 바뀐 학교라 최신 요강 확인이 특히 중요합니다.</div>
+  </div>
+
+  <div class="footer-note">
+    날짜에 "작년 기준"이라 표시된 곳은 지난 학년도 실제 일정이고,<br>
+    "추정"이라 표시된 곳은 매년 비슷한 패턴을 근거로 어림한 시기입니다.<br>
+    11월경 각 대학 입학처에서 올해 정확한 요강이 나오면 반드시 재확인하세요.
+  </div>
+
+</div>
+
+</body>
+</html>
