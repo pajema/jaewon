@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>서재원의 토익 스프린트</title>
+<style>
+  :root{
+    --bg:#12192b; --card:#1b2440; --border:rgba(255,255,255,0.07);
+    --text:#edeff7; --muted:#8c96b8;
+    --amber:#f2a65a; --amber-soft:rgba(242,166,90,0.14);
+    --teal:#6fbf97; --teal-soft:rgba(111,191,151,0.14);
+    --gold:#ffd166;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    -webkit-font-smoothing:antialiased; overflow:hidden;
+  }
+  #app{max-width:420px; margin:0 auto; height:100vh; display:flex; flex-direction:column; padding:14px 16px 18px; touch-action:pan-y;}
+
+  .top-name{text-align:center; font-size:11.5px; letter-spacing:0.3px; color:var(--muted); margin:6px 0 8px;}
+
+  .dots{display:flex; justify-content:center; gap:5px; margin-bottom:8px; flex-wrap:wrap;}
+  .dot{width:6px; height:6px; border-radius:50%; border:1px solid rgba(255,255,255,0.25); transition:all .15s;}
+  .dot.done{background:var(--amber); border-color:var(--amber);}
+  .dot.rest{background:var(--teal); border-color:var(--teal);}
+  .dot.current{width:9px; height:9px; background:var(--text); border-color:var(--text);}
+
+  .dday-row{display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;}
+  .dday{font-size:11px; color:var(--muted);}
+  .streak{font-size:10.5px; color:var(--gold); background:rgba(255,209,102,0.12); padding:2px 8px; border-radius:99px;}
+
+  .date-label{text-align:center; font-size:12.5px; color:var(--muted); margin:2px 0 0;}
+  .clock{text-align:center; font-size:52px; font-weight:800; line-height:1; letter-spacing:-1px; margin:2px 0 0;}
+  .status{text-align:center; font-size:13px; color:var(--amber); margin:4px 0 8px; min-height:18px;}
+
+  .progress-wrap{margin:0 0 10px;}
+  .progress-track{height:6px; background:rgba(255,255,255,0.08); border-radius:99px; overflow:hidden;}
+  .progress-fill{height:100%; background:linear-gradient(90deg,var(--amber),var(--gold)); width:0%; border-radius:99px;}
+  .progress-labels{display:flex; justify-content:space-between; margin-top:3px;}
+  .progress-labels span{font-size:10px; color:var(--muted);}
+
+  .card{
+    background:var(--card); border:1px solid var(--border); border-radius:12px;
+    padding:10px 12px; flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch;
+  }
+  .card.light{border-left:3px solid var(--teal);}
+  .card.rest{display:flex; align-items:center; justify-content:center; text-align:center;}
+
+  .task{display:flex; align-items:center; gap:9px; padding:8px 6px; border-radius:8px; border-top:1px solid rgba(255,255,255,0.06);}
+  .task:first-child{border-top:none;}
+  .task.active{background:var(--amber-soft);}
+  .task input[type="checkbox"]{width:17px; height:17px; accent-color:var(--amber); flex-shrink:0;}
+  .task label{font-size:13.5px; line-height:1.4; flex:1;}
+  .task .time{color:var(--muted); font-size:11.5px; display:block;}
+  .task input:checked + label{color:var(--muted); text-decoration:line-through;}
+  .task .tag{font-size:10px; color:var(--amber); font-weight:700; margin-left:auto; flex-shrink:0;}
+  .task.rest-row{opacity:0.6;}
+  .task.rest-row .time{color:var(--muted);}
+  .task.rest-row label{font-size:12.5px; color:var(--muted); font-style:italic;}
+  .task.rest-row.active{opacity:1; background:var(--amber-soft);}
+  .task.rest-row.active label{color:var(--text); font-style:normal;}
+
+  .rest-msg{font-size:14px; color:var(--muted); line-height:1.7; padding:20px;}
+  .rest-msg b{color:var(--text); font-weight:700;}
+
+  .nav{display:flex; justify-content:space-between; margin-top:10px;}
+  .nav button{
+    background:var(--card); border:1px solid var(--border); color:var(--text);
+    border-radius:8px; padding:8px 16px; font-size:13px; -webkit-appearance:none;
+  }
+  .nav button:active{background:rgba(255,255,255,0.06);}
+  .hint{text-align:center; font-size:10.5px; color:var(--muted); margin-top:6px;}
+  .heavy-banner{
+    background:rgba(224,116,138,0.14); color:#e8a3b2; border:1px solid rgba(224,116,138,0.35);
+    border-radius:8px; padding:8px 10px; font-size:12px; line-height:1.5; margin-bottom:8px; display:none;
+  }
+  .heavy-banner b{color:#f4c2cd;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="top-name">서재원의 토익 스프린트</div>
+  <div class="dots" id="dots"></div>
+  <div class="dday-row">
+    <span class="dday" id="dday"></span>
+    <span class="streak" id="streak" style="display:none;"></span>
+  </div>
+  <div class="date-label" id="dateLabel"></div>
+  <div class="clock" id="clock">--:--</div>
+  <div class="status" id="status"></div>
+  <div class="progress-wrap" id="progressWrap" style="display:none;">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-labels"><span id="pStart"></span><span id="pRemain"></span><span id="pEnd"></span></div>
+  </div>
+  <div class="heavy-banner" id="heavyBanner"></div>
+  <div class="card" id="card"></div>
+  <div class="nav">
+    <button id="prevBtn">← 이전</button>
+    <button id="nextBtn">다음 →</button>
+  </div>
+  <div class="hint">좌우로 스와이프해도 넘어갑니다</div>
+</div>
+
+<script>
+(function(){
+  var ACADEMY_DATE = new Date(2026,9,1); // 10/1
+
+  function mk(dateStr, weekday, type, studyIdx){
+    return {date:dateStr, weekday:weekday, type:type, studyIdx: (studyIdx===undefined?null:studyIdx)};
+  }
+  var DAYS = [
+    mk('2026-09-16','수',    'study',0),
+    mk('2026-09-17','목',    'study',1),
+    mk('2026-09-18','금',    'study',2),
+    mk('2026-09-19','토',    'study',3),
+    mk('2026-09-20','일',    'study',4),
+    mk('2026-09-21','월',    'study',5),
+    mk('2026-09-22','화',    'study',6),
+    mk('2026-09-23','수',    'study',7),
+    mk('2026-09-24','목',    'light'),
+    mk('2026-09-25','금',    'full'),
+    mk('2026-09-26','토',    'full'),
+    mk('2026-09-27','일',    'light'),
+    mk('2026-09-28','월',    'study',8),
+    mk('2026-09-29','화',    'study',9),
+    mk('2026-09-30','수',    'study',10)
+  ];
+
+  var RC_UNITS = [2,2,2,2,3,2,3,2,2,2,2]; // per study idx 0..10, sums to 24
+  var LC_UNITS = [2,2,2,2,2,3,2,3,2,2,2]; // per study idx 0..10, sums to 24
+  function cum(arr, idx){ var s=1; for(var i=0;i<idx;i++) s+=arr[i]; return s; }
+
+  function toMin(h,m){return h*60+m;}
+  function fmtMin(min){
+    var h=Math.floor(min/60), m=min%60;
+    return (h<10?'0':'')+h+':'+(m<10?'0':'')+m;
+  }
+
+  function buildTasks(d){
+    if(d.type==='full') return [];
+    if(d.type==='light'){
+      if(d.date==='2026-09-24'){
+        return [
+          {type:'task', label:'9/23 메모만 다시 보기 (10분)'},
+          {type:'task', label:'헷갈리는 단어 복습 — 왕기초+기출보카 (40분)'}
+        ];
+      }
+      return [{type:'task', label:'헷갈리는 단어 복습 — 왕기초+기출보카 (50분)'}];
+    }
+    var idx = d.studyIdx;
+    var rcU = RC_UNITS[idx], lcU = LC_UNITS[idx];
+    var rcS = cum(RC_UNITS, idx), rcE = rcS + rcU - 1;
+    var lcS = cum(LC_UNITS, idx), lcE = lcS + lcU - 1;
+    d.isHeavy = (rcU>2 || lcU>2);
+    d.heavyPart = rcU>2 ? 'RC' : (lcU>2 ? 'LC' : null);
+
+    var PER_UNIT = 37.5; // RC/LC 2 units = 75 min, scales for heavy (3-unit) days
+    var rcStart = toMin(13,40), rcEnd = rcStart + Math.round(rcU*PER_UNIT);
+    var lcStart = rcEnd + 15, lcEnd = lcStart + Math.round(lcU*PER_UNIT);
+    var v1Start = lcEnd + 10, v1End = v1Start + 40;
+    var v2Start = v1End + 5, v2End = v2Start + 80;
+    var memoStart = v2End, memoEnd = memoStart + 10;
+    d.finishTime = fmtMin(memoEnd);
+
+    var t = [];
+    t.push({type:'task', time:'10:00~11:30', label:'운동 (쉐도잉 15분 포함)', s:toMin(10,0), e:toMin(11,30)});
+    t.push({type:'rest', time:'11:30~13:30', label:'귀가·점심·샤워·이동', s:toMin(11,30), e:toMin(13,30)});
+    if(idx>0) t.push({type:'task', time:'13:30~13:40', label:'어제 체크 복습', s:toMin(13,30), e:rcStart});
+    t.push({type:'task', time:fmtMin(rcStart)+'~'+fmtMin(rcEnd), label:'RC Day '+rcS+'~'+rcE, s:rcStart, e:rcEnd});
+    t.push({type:'rest', time:fmtMin(rcEnd)+'~'+fmtMin(lcStart), label:'휴식', s:rcEnd, e:lcStart});
+    t.push({type:'task', time:fmtMin(lcStart)+'~'+fmtMin(lcEnd), label:'LC Day '+lcS+'~'+lcE, s:lcStart, e:lcEnd});
+    t.push({type:'rest', time:fmtMin(lcEnd)+'~'+fmtMin(v1Start), label:'휴식', s:lcEnd, e:v1Start});
+    t.push({type:'task', time:fmtMin(v1Start)+'~'+fmtMin(v1End), label:'왕기초 단어 정리', s:v1Start, e:v1End});
+    t.push({type:'rest', time:fmtMin(v1End)+'~'+fmtMin(v2Start), label:'휴식', s:v1End, e:v2Start});
+    t.push({type:'task', time:fmtMin(v2Start)+'~'+fmtMin(v2End), label:'기출보카 Day '+(idx+1), s:v2Start, e:v2End});
+    t.push({type:'task', time:fmtMin(memoStart)+'~'+fmtMin(memoEnd), label:'오늘 헷갈린 것 메모 및 체크', s:memoStart, e:memoEnd});
+    return t;
+  }
+  DAYS.forEach(function(d){ d.tasks = buildTasks(d); d.label = d.date.slice(5,7)+'월 '+d.date.slice(8,10)+'일 '+d.weekday+'요일'; });
+
+  function todayKey(){
+    var n=new Date();
+    return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');
+  }
+  function storeKey(){return 'jw_toeic_checks';}
+  function loadStore(){ try{return JSON.parse(localStorage.getItem(storeKey())||'{}');}catch(e){return {};} }
+  function saveStore(s){ try{localStorage.setItem(storeKey(), JSON.stringify(s));}catch(e){} }
+
+  function isDayComplete(d, store){
+    var checkable = d.tasks.filter(function(t){return t.type==='task';});
+    if(checkable.length===0) return true; // rest day always counts as "kept"
+    var rec = store[d.date]||{};
+    for(var i=0;i<d.tasks.length;i++){ if(d.tasks[i].type==='task' && !rec[i]) return false; }
+    return true;
+  }
+
+  var TODAY = todayKey();
+  var idxOf = -1;
+  DAYS.forEach(function(d,i){ if(d.date===TODAY) idxOf=i; });
+  // fallback for environments whose clock doesn't fall inside the plan's date range
+  var current = idxOf>=0 ? idxOf : (TODAY < DAYS[0].date ? 1 : DAYS.length-1);
+
+  function ddayText(dateStr){
+    var d = new Date(dateStr+'T00:00:00');
+    var diff = Math.round((ACADEMY_DATE - d)/86400000);
+    if(diff>0) return '개강까지 D-'+diff;
+    if(diff===0) return '개강 D-DAY';
+    return '개강 이후';
+  }
+
+  function computeStreak(){
+    var store = loadStore();
+    var count=0;
+    for(var i=idxOf-1;i>=0;i--){
+      if(!isDayComplete(DAYS[i], store)) break;
+      if(DAYS[i].tasks.length>0) count++;
+    }
+    return count;
+  }
+
+  function render(){
+    var d = DAYS[current];
+    var store = loadStore();
+    var rec = store[d.date] || {};
+
+    document.getElementById('dots').innerHTML = DAYS.map(function(dd,i){
+      var cls='dot';
+      if(i===current) cls+=' current';
+      else if(dd.type==='full') cls+=' rest';
+      else if(isDayComplete(dd, store)) cls+=' done';
+      return '<span class="'+cls+'"></span>';
+    }).join('');
+
+    document.getElementById('dday').textContent = ddayText(d.date);
+    document.getElementById('dateLabel').textContent = d.label + (d.type==='study' ? (' · Day '+(d.studyIdx+1)) : (d.type==='light' ? ' · 연휴, 가벼운 유지' : ' · 연휴, 완전 휴무'));
+
+    var streakEl = document.getElementById('streak');
+    if(idxOf>=0 && current===idxOf){
+      var s = computeStreak();
+      if(s>0){ streakEl.style.display='inline-block'; streakEl.textContent = s+'일 연속'; }
+      else streakEl.style.display='none';
+    } else streakEl.style.display='none';
+
+    var card = document.getElementById('card');
+    var heavyEl = document.getElementById('heavyBanner');
+    if(d.type==='study' && d.isHeavy){
+      heavyEl.style.display='block';
+      heavyEl.innerHTML = '<b>오늘은 무거운 날입니다.</b> '+d.heavyPart+'가 평소보다 1개 Day 더 있어서, 평소처럼 2개씩만 하고 끝났다고 생각하면 안 됩니다. 오늘은 끝나는 시간도 평소보다 45분 늦은 <b>'+d.finishTime+'경</b>입니다.';
+    } else {
+      heavyEl.style.display='none';
+    }
+    var isLiveToday = (idxOf>=0 && current===idxOf);
+    var nowMin = (function(){var n=new Date(); return n.getHours()*60+n.getMinutes();})();
+
+    if(d.type==='full'){
+      card.className='card rest';
+      card.innerHTML = '<div class="rest-msg">오늘은 <b>완전 휴무</b>입니다.<br>공부 계획 없이 편하게 보내셔도 됩니다.</div>';
+      document.getElementById('status').textContent='';
+      document.getElementById('progressWrap').style.display='none';
+      return;
+    }
+
+    card.className = 'card' + (d.type==='light' ? ' light' : '');
+    var activeIdx=-1;
+    if(isLiveToday && d.type==='study'){
+      for(var i=0;i<d.tasks.length;i++){
+        if(d.tasks[i].s!=null && nowMin>=d.tasks[i].s && nowMin<d.tasks[i].e){ activeIdx=i; break; }
+      }
+    }
+
+    card.innerHTML = d.tasks.map(function(t,i){
+      var isActive = (i===activeIdx);
+      var timeHtml = t.time ? '<span class="time">'+t.time+'</span>' : '';
+      if(t.type==='rest'){
+        return '<div class="task rest-row'+(isActive?' active':'')+'">'+
+          '<span style="width:17px; flex-shrink:0;"></span>'+
+          '<label>'+timeHtml+t.label+'</label>'+
+          (isActive ? '<span class="tag">진행중</span>' : '')+
+        '</div>';
+      }
+      var checked = rec[i] ? 'checked' : '';
+      return '<div class="task'+(isActive?' active':'')+'">'+
+        '<input type="checkbox" id="chk-'+current+'-'+i+'" data-idx="'+i+'" '+checked+'>'+
+        '<label for="chk-'+current+'-'+i+'">'+timeHtml+t.label+'</label>'+
+        (isActive ? '<span class="tag">진행중</span>' : '')+
+      '</div>';
+    }).join('');
+
+    Array.prototype.forEach.call(card.querySelectorAll('input[type=checkbox]'), function(cb){
+      cb.addEventListener('change', function(){
+        var i = this.getAttribute('data-idx');
+        var st = loadStore();
+        st[d.date] = st[d.date]||{};
+        st[d.date][i] = this.checked;
+        saveStore(st);
+        render();
+      });
+    });
+
+    if(isLiveToday && activeIdx>=0){
+      var t = d.tasks[activeIdx];
+      document.getElementById('status').textContent = '지금은 ' + t.label + ' 시간';
+      var pct = Math.round(((nowMin - t.s)/(t.e - t.s))*100);
+      document.getElementById('progressWrap').style.display='block';
+      document.getElementById('progressFill').style.width = Math.max(0,Math.min(100,pct))+'%';
+      document.getElementById('pStart').textContent = fmtMin(t.s);
+      document.getElementById('pEnd').textContent = fmtMin(t.e);
+      document.getElementById('pRemain').textContent = Math.max(0, t.e - nowMin) + '분 남음';
+    } else {
+      document.getElementById('status').textContent = isLiveToday ? '지금은 쉬는 시간입니다' : '';
+      document.getElementById('progressWrap').style.display='none';
+    }
+  }
+
+  function tickClock(){
+    var n = new Date();
+    var h=String(n.getHours()).padStart(2,'0'), m=String(n.getMinutes()).padStart(2,'0');
+    document.getElementById('clock').textContent = h+':'+m;
+    render();
+  }
+  setInterval(tickClock, 15000);
+  tickClock();
+
+  document.getElementById('prevBtn').addEventListener('click', function(){ if(current>0){current--; render();} });
+  document.getElementById('nextBtn').addEventListener('click', function(){ if(current<DAYS.length-1){current++; render();} });
+
+  var touchX=null;
+  document.getElementById('app').addEventListener('touchstart', function(e){ touchX = e.touches[0].clientX; });
+  document.getElementById('app').addEventListener('touchend', function(e){
+    if(touchX==null) return;
+    var dx = e.changedTouches[0].clientX - touchX;
+    if(Math.abs(dx) > 50){
+      if(dx<0 && current<DAYS.length-1){ current++; render(); }
+      else if(dx>0 && current>0){ current--; render(); }
+    }
+    touchX=null;
+  });
+})();
+</script>
+</body>
+</html>
